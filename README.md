@@ -1,4 +1,3 @@
 # node.js-datalayer
 
-Using Mongoose ODM library:
-npm install mongoose
+Experimental personal project exploring and leveraging MERN stack.
