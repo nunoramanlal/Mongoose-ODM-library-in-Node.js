@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://nuno:nuno@cluster0-kmbj1.mongodb.net/test?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology:true});
+mongoose.connect('mongodb+srv://<username>:<pwd>@cluster0-kmbj1.mongodb.net/test?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology:true});
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -15,12 +15,17 @@ var SchemaModel = mongoose.model('SchemaModel', schema);
 
 var toInsert = new SchemaModel({ name: 'Test' });
 
-toInsert.save(function (err) {
-    if (err) return console.error(err);
-    else console.log("inserted");
+SchemaModel.deleteMany({ name: 'Test' }, function (err) {
+    if(err) console.log(err);
+    console.log("Successful deletion");
 });
 
 SchemaModel.find(function (err, retrievedObjects) {
     if (err) return console.error(err);
     console.log(retrievedObjects);
 })
+
+toInsert.save(function (err) {
+    if (err) return console.error(err);
+    else console.log("inserted");
+});
