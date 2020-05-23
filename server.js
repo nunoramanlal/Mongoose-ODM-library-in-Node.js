@@ -1,31 +1,27 @@
-var mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://<username>:<pwd>@cluster0-kmbj1.mongodb.net/test?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology:true});
+const mongoose = require('mongoose');
+const Schema = require('./SchemaModel');
 
-var db = mongoose.connection;
+mongoose.connect('mongodb+srv://nuno:nuno@cluster0-kmbj1.mongodb.net/test?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology:true});
+
+const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
-  console.log('connection succeded');
+  console.log('Connection succeeded');
 });
 
-var schema = new mongoose.Schema({
-    name: String
-});
+const toInsert = new Schema({ name: 'Test' });
 
-var SchemaModel = mongoose.model('SchemaModel', schema);
-
-var toInsert = new SchemaModel({ name: 'Test' });
-
-SchemaModel.deleteMany({ name: 'Test' }, function (err) {
+Schema.deleteMany({ name: 'Test' }, function (err) {
     if(err) console.log(err);
     console.log("Successful deletion");
 });
-
-SchemaModel.find(function (err, retrievedObjects) {
-    if (err) return console.error(err);
-    console.log(retrievedObjects);
-})
 
 toInsert.save(function (err) {
     if (err) return console.error(err);
     else console.log("inserted");
 });
+
+Schema.find(function (err, retrievedObjects) {
+    if (err) return console.error(err);
+    console.log(retrievedObjects);
+})
